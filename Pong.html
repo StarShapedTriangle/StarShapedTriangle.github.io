@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<title> Pong </title>
+	<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+	<script>
+		function start(){
+			alert("Never gonna give you up never gonna let you doooown-")
+				sjs.open("target", 700, 700);
+				//ball
+				var ball = new sjs.Image("Images/arson the blob.png");
+				ball.type = ("ball");
+				ball.setSize(150, 150);
+				ball.center();
+				ball.friction = 0;
+				ball.bounce();
+				ball.pushRight(3);
+				ball.pushUp(4);
+			//paddle code
+			var paddle1 = new sjs.Image("Images/paddle.png");
+			paddle1.type = "paddle";
+			paddle1.centerH();
+			paddle1.setSize(100,20);
+
+			//paddle2 code
+			var paddle2 = new sjs.Image ("Images/paddle2.png");
+			paddle2.type = "paddle";
+			paddle2.center().bottom();
+			paddle2.setSize(100,20);
+
+			//Score
+			var score = 0;
+			var score_txt = new sjs.Text("Score: 0", 21, "Magenta");
+
+			//keys moving paddles
+			sjs.keyDown(LEFT_KEY, function(){
+				paddle1.pushLeft();
+				paddle2.pushLeft();
+			});	
+			//sounds
+			var soundEffect = new Audio ('Music/pop.mp3');
+
+			sjs.onHit("ball",["top_screen","bottom_screen"], function(){
+					window.location = "gameover.html";
+					});
+
+			sjs.onHit("ball", "paddle",function(ball, paddle){
+
+				score = score + 1;
+				score_txt.setText("Score: "+score);
+
+
+					sjs.onHit("ball",["top_screen","bottom_screen"], function(){
+					window.location = "gameover.html";
+					});
+
+					if (score == 25){
+						var newball = new sjs.Image("Images/arson the blob.png");
+						newball.type = ("ball");
+						newball.setSize(150, 150);
+						newball.center();
+						newball.friction = 0;
+						newball.bounce();
+						newball.pushRight(3);
+						newball.pushUp(4);
+					}
+
+
+					sjs.onHit("newball",["top_screen","bottom_screen"], function(){
+					window.location = "gameover.html";
+						});		
+					
+					sjs.onHit("newball","paddle", function(newball,paddle){
+						score = score + 1;
+						score_txt.setText("Score: "+score);
+						sjs.bounceOff(newball,paddle);
+					});
+
+					
+
+				sjs.bounceOff(ball, paddle);
+				soundEffect.play();
+
+
+
+			});
+			
+
+			//right push paddle
+			sjs.keyDown(RIGHT_KEY, function(){
+				paddle1.pushRight();
+				paddle2.pushRight();
+			});
+
+			/*
+					var newball = new sjs.Image("Images/arson the blob.png");
+					newball.type = "ball";
+					newball.setSize(150,150);
+					newball.center();
+					newball.friction = 0;
+					newball.bounce();
+					newball.pushRight(3);
+					newball.pushUp(4);
+*/
+
+
+		}
+	</script>
+	</head>
+	<body onload="start()">
+		<h1> Epic Pong game </h1>
+		<div id="target" style="margin:auto;background:lavender;"></div>
+	</body>
+</html>
